@@ -113,9 +113,20 @@ Q: Can trading guarantee profit?
 A: No"""
 
     elif text == "📩 Contact Support":
-        reply = """📩 Contact Support
+        reply = """📩 Contact & Support
 
-For Learn More: @Market_Learner01"""
+For any questions related to the educational content, 
+please use this bot menu or check the FAQ section.
+
+📘 Additional Learning:
+You may explore more educational resources here:
+@Market_Learner01
+
+⚠️ Disclaimer:
+This bot is for educational purposes only.
+We do not provide personal trading advice.
+
+“These are projections and not guarantees.”"""
 
     else:
         reply = "Please select an option from menu 👇"
