@@ -1,16 +1,17 @@
 import os
 import telebot
+from flask import Flask, request
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMIN_ID = int(os.getenv("ADMIN_ID"))  # 👈 apna Telegram user ID
+ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
 bot = telebot.TeleBot(BOT_TOKEN)
+app = Flask(__name__)
 
-# ===== USER STORAGE (temporary memory) =====
 users = set()
 
-# ===== REPLY KEYBOARD =====
+# ===== MENU =====
 def main_menu():
     markup = ReplyKeyboardMarkup(resize_keyboard=True)
     
@@ -35,7 +36,6 @@ def start(message):
     user_id = message.from_user.id
     name = message.from_user.first_name
 
-    # ===== NEW USER CHECK =====
     if user_id not in users:
         users.add(user_id)
 
@@ -57,7 +57,6 @@ By continuing, you confirm that you understand and accept this."""
 
     msg = bot.send_message(message.chat.id, text, reply_markup=main_menu())
 
-    # Auto pin
     try:
         bot.pin_chat_message(message.chat.id, msg.message_id)
     except:
@@ -119,7 +118,6 @@ For any questions related to the educational content,
 please use this bot menu or check the FAQ section.
 
 📘 Additional Learning:
-You may explore more educational resources here:
 @Market_Learner01
 
 ⚠️ Disclaimer:
@@ -133,5 +131,20 @@ We do not provide personal trading advice.
 
     bot.send_message(message.chat.id, reply, reply_markup=main_menu())
 
+# ===== WEBHOOK =====
+@app.route(f"/{BOT_TOKEN}", methods=["POST"])
+def webhook():
+    bot.process_new_updates(
+        [telebot.types.Update.de_json(request.stream.read().decode("utf-8"))]
+    )
+    return "ok", 200
+
+@app.route("/")
+def home():
+    return "Bot is running"
+
 # ===== RUN =====
-bot.infinity_polling()
+if __name__ == "__main__":
+    bot.remove_webhook()
+    bot.set_webhook(url=os.getenv("RENDER_EXTERNAL_URL") + "/" + BOT_TOKEN)
+    app.run(host="0.0.0.0", port=10000)
