@@ -190,8 +190,32 @@ def start(message):
         pass
 
     # 2️⃣ Send welcome message + keyboard
-    bot.send_message(message.chat.id, "👋 Welcome to Market learner Bot!\n\nThis bot is your step-by-step guide to learning trading markets safely and effectively.\nHere, you will explore the following topics:\n📘 Market Mindset – Learn how your emotions influence trading and how structured thinking improves decisions.\n📈 Trend Analysis – Understand market trends, identify uptrends, downtrends, and sideways markets for better trading.\n⚖️ Smart Risk Allocation – Protect your capital with position sizing, stop-loss strategies, and diversification.\n🧠 Emotional Control – Master discipline, patience, and avoid impulsive mistakes caused by fear or greed.\n🔍 Technical Patterns – Learn key chart patterns and candlestick signals to anticipate potential market moves.\n❓ FAQ – Get answers to common questions about trading, risk, and using this bot.\n\n⚠️ This content is for educational purposes only.  
-“These are projections and not guarantees.”\n\nUse the buttons below to start exploring a topic:\n\n📘 Market Mindset\n📈 Trend Analysis\n⚖️ Smart Risk Allocation\n🧠 Emotional Control\n🔍 Technical Patterns\n❓ FAQ", reply_markup=get_keyboard())
+    bot.send_message(
+    message.chat.id,
+    """👋 Welcome to Market learner Bot!
+
+This bot is your step-by-step guide to learning trading markets safely and effectively.
+Here, you will explore the following topics:
+📘 Market Mindset – Learn how your emotions influence trading and how structured thinking improves decisions.
+📈 Trend Analysis – Understand market trends, identify uptrends, downtrends, and sideways markets for better trading.
+⚖️ Smart Risk Allocation – Protect your capital with position sizing, stop-loss strategies, and diversification.
+🧠 Emotional Control – Master discipline, patience, and avoid impulsive mistakes caused by fear or greed.
+🔍 Technical Patterns – Learn key chart patterns and candlestick signals to anticipate potential market moves.
+❓ FAQ – Get answers to common questions about trading, risk, and using this bot.
+
+⚠️ This content is for educational purposes only.
+“These are projections and not guarantees.”
+
+Use the buttons below to start exploring a topic:
+
+📘 Market Mindset
+📈 Trend Analysis
+⚖️ Smart Risk Allocation
+🧠 Emotional Control
+🔍 Technical Patterns
+❓ FAQ""",
+    reply_markup=get_keyboard()
+    )
 
 # Handle topic selection from keyboard
 @bot.message_handler(func=lambda message: message.text in topics.keys())
